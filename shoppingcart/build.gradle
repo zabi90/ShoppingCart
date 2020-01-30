@@ -2,6 +2,25 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.novoda.bintray-release'
+
+
+//Step II: Add the below publish details
+publish {
+
+    def groupProjectID = 'de.starkling.shoppingcart'
+    def artifactProjectID = 'shoppingcart'
+    def publishVersionID = '1.0.0'
+
+    userOrg = 'zabi1990'
+    repoName = 'ShoppingCart'
+    groupId = groupProjectID
+    artifactId = artifactProjectID
+    publishVersion = publishVersionID
+    desc = 'Cart Management for kotlin'
+    website = 'https://github.com/zabi90/ShoppingCart'
+}
+
 
 
 android {
@@ -13,7 +32,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
