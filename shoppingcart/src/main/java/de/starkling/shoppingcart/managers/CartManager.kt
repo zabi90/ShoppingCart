@@ -16,13 +16,13 @@ import kotlinx.coroutines.*
 
 class CartManager private constructor(context: Context) {
 
-    private val job = CoroutineScope(Dispatchers.Default)
 
     private val cartTotal: MutableLiveData<CartTotal> by lazy {
         MutableLiveData<CartTotal>()
     }
 
     private val items = ArrayList<CartItem>()
+
 
     private var db: CartDatabase
 
@@ -37,6 +37,15 @@ class CartManager private constructor(context: Context) {
     }
 
     /**
+     * Return the list of cart item
+     */
+    fun getCartItems(): ArrayList<CartItem> {
+        val cartItem = ArrayList<CartItem>()
+        cartItem.addAll(items)
+        return cartItem
+    }
+
+    /**
      * Notify totals items and their amounts when item add or remove from cart
      * by calling #updateItem(saleable: Saleable)
      * @return LiveData<CartTotal>
@@ -48,11 +57,13 @@ class CartManager private constructor(context: Context) {
     /**
      * Remove item from cart db
      */
-    suspend fun removeItem(saleable: Saleable):Int = coroutineScope {
-        val deleteResult = async {  db.cartItemDao().delete(saleable.getId())}
+    suspend fun removeItem(saleable: Saleable): Int = coroutineScope {
+
+        val deleteResult = async { db.cartItemDao().delete(saleable.getId()) }
         updateTotals()
         return@coroutineScope deleteResult.await()
     }
+
     /**
      * Update item in cart db and update the totals items and amounts
      */
@@ -66,7 +77,6 @@ class CartManager private constructor(context: Context) {
 
             if (saleable.getQuantity() == 0) {
                 db.cartItemDao().delete(saleable.getId())
-
             } else {
                 cartItem.itemQuantity = saleable.getQuantity()
                 val updateResult =
@@ -92,13 +102,21 @@ class CartManager private constructor(context: Context) {
         val products = saleable as ArrayList<Saleable>
 
         val result = async {
-            items.forEach { cartItem ->
 
-                val productIndex = products.indexOfFirst { product ->
-                    product.getId().equals(cartItem.getId(), false)
+            products.forEachIndexed { index, product ->
+
+                val cartItem:CartItem? = try {
+                    items.first { cartItem ->
+                        product.getId().equals(cartItem.getId(), false)
+                    }
+                } catch (exception:Exception){
+                     null
                 }
-                if (productIndex != -1) {
-                    products[productIndex].itemQuantity = cartItem.getQuantity()
+
+                if(cartItem != null){
+                    products[index].itemQuantity = cartItem.getQuantity()
+                }else{
+                    products[index].itemQuantity = 0
                 }
             }
         }
@@ -110,7 +128,7 @@ class CartManager private constructor(context: Context) {
 
     private fun updateTotals() {
 
-        job.launch {
+        CoroutineScope(Dispatchers.Default).launch {
 
             items.clear()
 

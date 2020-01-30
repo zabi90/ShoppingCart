@@ -1,5 +1,6 @@
 package de.starkling.shoppingcartsample
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -24,8 +25,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         cart = CartManager.getInstance(applicationContext)
 
-        adapter =
-            ProductListAdapter(this)
+        supportActionBar?.title = "Products"
+
+        adapter = ProductListAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
@@ -44,6 +46,12 @@ class MainActivity : AppCompatActivity() {
         cart.subscribeCartTotal().observe(this, Observer {
             totalTextView.text = "Checkout (${it.totalItems})  Total Amount: ${it.totalAmount}.Rs"
         })
+
+        totalTextView.setOnClickListener {
+            startActivity(
+                Intent(this@MainActivity,CartActivity::class.java)
+            )
+        }
     }
 
     override fun onResume() {
