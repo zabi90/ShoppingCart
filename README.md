@@ -8,7 +8,7 @@ Shopping cart is Kotlin android library that provide you cart managment feature.
 
 ### Usage
 
-First you need to make your existing model class a Saleable type by implementing the `Saleable` Interface. We have Product in our sample app.
+First you need to make your existing model class a Saleable type by implementing the [`Saleable`](https://github.com/zabi90/ShoppingCart/blob/master/shoppingcart/src/main/java/de/starkling/shoppingcart/models/Saleable.kt) Interface. We have Product in our sample app.
 
 ```
 data class Product(var id:String, var name:String ... ) : Saleable 
