@@ -2,6 +2,8 @@
 
 Shopping cart is Kotlin android library that provide you cart managment feature. This library use coroutine to make cart management fast.
 
+![Demonstration of the shopping cart sample](ScreenShots/video.gif)
+
 ### Installation
 
 ``` implementation 'de.starkling.shoppingcart:shoppingcart:1.0.0' ```
@@ -82,7 +84,34 @@ You can get the list of cart items from CartManager to show your cart items in r
 ```
 cart.getCartItems()
 ```
+### Counter Widget
+Library contain simple counter widget that usually used while adding item in cart. This widget only maintain count value.
 
+![Demonstration of the shopping cart sample](ScreenShots/shot_one.png)
+
+Add following xml in your layout
+```
+    <de.starkling.shoppingcart.widget.CounterView
+        android:id="@+id/counterView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+   />
+   
+```
+Add listener to get counter updated value
+
+```
+    counterView.addCounterValueChangeListener(object :CounterView.CounterValueChangeListener{
+         override fun onValueDelete(count: Int) {
+                    //when value decrease
+                }
+
+                override fun onValueAdd(count: Int) {
+                    //when value added
+                }
+               
+         })
+```            
 For more help and detail please checkout sample project. 
 
 License
