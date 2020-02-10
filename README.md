@@ -103,7 +103,7 @@ Add listener to get counter updated value
 ```
     counterView.addCounterValueChangeListener(object :CounterView.CounterValueChangeListener{
          override fun onValueDelete(count: Int) {
-                    //when value decrease
+                    //when value removed
                 }
 
                 override fun onValueAdd(count: Int) {
