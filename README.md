@@ -1,6 +1,6 @@
 # ShoppingCart
 
-Shopping cart is Kotlin android library that provide you cart managment feature. This library use coroutine to make cart management fast.
+Shopping cart is a small Kotlin android library that provide you cart managment feature like add, remove and calculate total items and amount. This library used coroutine to make cart management fast and used Room DB to save cart items.
 
 ![Demonstration of the shopping cart sample](ScreenShots/video.gif)
 
